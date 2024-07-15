@@ -1,26 +1,21 @@
-document.addEventListener("DOMContentLoaded", function(){
-    let btn = document.querySelector('#new-qoute');
-    let quote = document.querySelector('.quote');
-    let person = document.querySelector('.person');
+let quote = document.querySelector(".quote");
+let author = document.querySelector(".author");
+let newQuote = document.querySelector("#new-quote");
 
-    async function fetchData(){
-        try {
-            /*fetch("https://type.fit/api/quotes")
-            .then(function(response) {
-                return response.json();
-            })
-            .then(function(data) {
-                console.log(data);
-            });*/
-            let response = await fetch("https://type.fit/api/quotes");
-            let data = await response.json();
-            console.log(data);
-        } catch (error) {
-            console.log("Error is:" + error)
-        }
+const api_url = ("https://type.fit/api/quotes");
+
+async function getQuote(url){
+    try {
+        const response = await fetch(url);
+        let data = await response.json();
+        let randomQuote = data[Math.floor(Math.random() * data.length)];
+        quote.innerHTML = `"${randomQuote.text}"`;
+        author.innerHTML = `- ${randomQuote.author || "Unknown"}`;
+    } catch (error) {
+        console.error("Error occurred fetching data: " + error);
     }
-    console.log(fetchData());
-    btn.addEventListener("click", function(){
-        
-    })
-})
+}
+
+newQuote.addEventListener("click", () => getQuote(api_url));
+
+getQuote(api_url)
