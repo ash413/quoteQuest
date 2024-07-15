@@ -10,7 +10,8 @@ async function getQuote(url){
         let data = await response.json();
         let randomQuote = data[Math.floor(Math.random() * data.length)];
         quote.innerHTML = `"${randomQuote.text}"`;
-        author.innerHTML = `- ${randomQuote.author || "Unknown"}`;
+        let authorname = randomQuote.author ? randomQuote.author.split(',')[0] : "Unknown";
+        author.innerHTML = `- ${authorname}`;
     } catch (error) {
         console.error("Error occurred fetching data: " + error);
     }
